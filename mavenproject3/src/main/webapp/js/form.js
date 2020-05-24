@@ -175,23 +175,43 @@
     
 
     //SUBMIT BUTTON 
-    form.addEventListener('submit', (e) => {
+//    form.addEventListener('submit', (e) => {
+//
+//      isFormValid = true
+//      e.preventDefault();
+//      checkInputs();     
+//      
+//      formObject.forEach(item =>{
+//        if(!item.valid){
+//          isFormValid = false
+//        }
+//      })
+//
+//      if(isFormValid){        
+//        createNewOrderData();
+//      }                 
+//      
+//    });
+    
+    function valiData(){
+        isFormValid = true;
+        checkInputs();     
 
-      isFormValid = true
-      e.preventDefault();
-      checkInputs();     
-      
-      formObject.forEach(item =>{
-        if(!item.valid){
-          isFormValid = false
+        formObject.forEach(item =>{
+          if(!item.valid){
+            isFormValid = false;
+            //return false;
+          }
+        })
+
+        if(isFormValid){        
+          //createNewOrderData();
+          return true;
+        }     
+        else {
+            return false;
         }
-      })
-
-      if(isFormValid){        
-        createNewOrderData();
-      }                 
-      
-    });
+    }
     
     /*****************************************
     ADD DATA TO DATABASE

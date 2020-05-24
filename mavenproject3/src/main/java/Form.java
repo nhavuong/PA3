@@ -100,7 +100,7 @@ public class Form extends HttpServlet {
                             "            <div class=\"col-10 title\">\n" +
                             "                <h2>Order Form</h2>\n" +
                             "            \n" +
-                            "                <form class=\"form\" id=\"form\">\n" +
+                            "           <form class=\"form\" id=\"form\" method=\"get\" action=\"UpdateDatabase\" onsubmit=\"return valiData();\">\n" +
                             "                    <div class=\"row\">\n" +
                             "                        <div class=\"col-12 form-control\">\n" +
                             "                            <label for=\"firstName\">First Name</label>\n" +
