@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,8 +36,64 @@ public class Confirmation extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         // Write the response message, in an HTML page
-      try {
-         out.println("<!DOCTYPE HTML>\n" +
+        try {
+            String customerName ="";
+            String phoneNumber = "";
+            String address = "";
+            String method = "";
+            String item = "";
+            float price = 0;
+            int quantity = 0;
+            float subtotal = 0;
+            String shipping = "";
+            float tax = 0;
+            float total = 0;
+            String cardNumber = "";
+            String expireDate = "";
+            String billingAddress = "";
+            
+            String URL = "jdbc:mysql://localhost:3307/jnah_shop";
+            String USER = "root";
+            String PASSWORD = "";
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection dbcon = DriverManager.getConnection(URL, USER, PASSWORD);
+            
+            int ID = 33;
+            
+            String query = "SELECT * FROM jnah_shop.cloth, jnah_shop.order WHERE jnah_shop.order.OrderID=? AND jnah_shop.cloth.id=jnah_shop.order.ClothID";
+            PreparedStatement pre = dbcon.prepareStatement(query);
+            pre.setInt(1, ID);
+            ResultSet rs = pre.executeQuery();
+            
+            while(rs.next()){
+                customerName = rs.getString("LastName") + " , " + rs.getString("FirstName");
+                phoneNumber = rs.getString("PhoneNumber");
+                address = rs.getString("ShippingAddress")+ ", " + rs.getString("City") + ", " + rs.getString("State") + " " + rs.getString("Zipcode");
+                method = rs.getString("ShippingMethod");
+                item = rs.getString("name");
+                price = rs.getFloat("price");
+                quantity = Integer.parseInt(rs.getString("Quantity"));
+                subtotal = price * quantity;
+                if (method.equals("6 Days Ground")){
+                  shipping = "5";
+                }
+                else if (method.equals("2 Days Expedited")){
+                  shipping = "10";
+                }
+                else {
+                  shipping = "30";
+                }
+
+                tax = rs.getFloat("Tax");
+                total = rs.getFloat("TotalPrice");
+                cardNumber = "xxxx-xxxx-xxxx-" + rs.getString("CardLast4Digit");
+                expireDate= rs.getString("CardExpDate");
+                billingAddress = address;
+            }
+            
+            dbcon.close();
+           
+            out.println("<!DOCTYPE HTML>\n" +
                         "<html>\n" +
                         "    <head>\n" +
                         "        <title>JNAH</title>\n" +
@@ -92,13 +149,13 @@ public class Confirmation extends HttpServlet {
                         "                    </div>\n" +
                         "                    <div class=\"col-6\">\n" +
                         "                        <h4> Delivery for </h4>\n" +
-                        "                        <h5> Customer: <span id=\"customerName\"></span></h5>\n" +
-                        "                        <h5> Phone Number: <span id=\"phoneNumber\"></span></h5>\n" +
-                        "                        <h5> Address: <span id=\"address\"></span></h5>\n" +
+                        "                        <h5> Customer: <span id=\"customerName\">" + customerName + "</span></h5>\n" +
+                        "                        <h5> Phone Number: <span id=\"phoneNumber\">"+ phoneNumber +"</span></h5>\n" +
+                        "                        <h5> Address: <span id=\"address\">"+ address +"</span></h5>\n" +
                         "                    </div>     \n" +
                         "                    <div class=\"col-6\">\n" +
                         "                        <h4> Delivery Method </h4>\n" +
-                        "                        <h5><span id=\"method\"></span></h5>\n" +
+                        "                        <h5><span id=\"method\">"+ method +"</span></h5>\n" +
                         "                    </div>\n" +
                         "                    <div class=\"col-12\">\n" +
                         "                        <hr>\n" +
@@ -110,16 +167,16 @@ public class Confirmation extends HttpServlet {
                         "                    </div>\n" +
                         "                    <div class=\"col-6\">\n" +
                         "                        <h4> Item Ordered </h4>\n" +
-                        "                        <h5> Item: <span id=\"item\"></span></h5>\n" +
-                        "                        <h5> Price: <span id=\"price\"></span></h5>\n" +
-                        "                        <h5> Quantity: <span id=\"quantity\"></span></h5>\n" +
+                        "                        <h5> Item: <span id=\"item\">"+ item +"</span></h5>\n" +
+                        "                        <h5> Price: <span id=\"price\">"+ price +"</span></h5>\n" +
+                        "                        <h5> Total Quantity: <span id=\"quantity\">"+ quantity +"</span></h5>\n" +
                         "                    </div>     \n" +
                         "                    <div class=\"col-6\">\n" +
                         "                        <h4> Receipt Information </h4>\n" +
-                        "                        <h5> Subtotal: $<span id=\"subtotal\"></span></h5>\n" +
-                        "                        <h5> Shipping: $<span id=\"shipping\"></span></h5>\n" +
-                        "                        <h5> Tax: $<span id=\"tax\"></span></h5>\n" +
-                        "                        <h5> Total: $<span id=\"total\"></span></h5>\n" +
+                        "                        <h5> Subtotal: $<span id=\"subtotal\">"+ subtotal +"</span></h5>\n" +
+                        "                        <h5> Shipping: $<span id=\"shipping\">" + shipping +"</span></h5>\n" +
+                        "                        <h5> Tax: $<span id=\"tax\">"+ tax +"</span></h5>\n" +
+                        "                        <h5> Total: $<span id=\"total\">"+ total +"</span></h5>\n" +
                         "                    </div>\n" +
                         "                    <div class=\"col-12\">\n" +
                         "                        <hr>\n" +
@@ -131,12 +188,12 @@ public class Confirmation extends HttpServlet {
                         "                    </div>\n" +
                         "                    <div class=\"col-6\">\n" +
                         "                        <h4> Credit Card </h4>\n" +
-                        "                        <h5> Card Number: <span id=\"cardNumber\"></span></h5>\n" +
-                        "                        <h5> Expiration Date: <span id=\"expireDate\"></span></h5>\n" +
+                        "                        <h5> Card Number: <span id=\"cardNumber\">"+ cardNumber +"</span></h5>\n" +
+                        "                        <h5> Expiration Date: <span id=\"expireDate\">"+ expireDate +"</span></h5>\n" +
                         "                    </div>     \n" +
                         "                    <div class=\"col-6\">\n" +
                         "                        <h4> Billing Address </h4>\n" +
-                        "                        <h5> <span id=\"billingAddress\"></span> </h5>\n" +
+                        "                        <h5> <span id=\"billingAddress\">"+ billingAddress +"</span> </h5>\n" +
                         "                    </div>\n" +
                         "                </div> \n" +
                         "                <div class=\"row end\">\n" +
@@ -183,6 +240,12 @@ public class Confirmation extends HttpServlet {
                         "    </body>\n" +
                         "</html>");
 
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Confirmation.class.getName()).log(Level.SEVERE, null, ex);
+             
+        } catch (SQLException ex) {
+            Logger.getLogger(Confirmation.class.getName()).log(Level.SEVERE, null, ex);
+           
         } finally {
            out.close();  // Always close the output writer
         }
