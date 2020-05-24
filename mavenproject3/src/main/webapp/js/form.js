@@ -78,64 +78,66 @@
     }
 
     //reset zipcode, state, city when have new input
-    const zipcodeInput = document.getElementById('zipcode');
-    zipcodeInput.addEventListener('change', function(){
-        document.getElementById ("city").value = "";
-        document.getElementById ("state").value = "";
-    });
+//    const zipcodeInput = document.getElementById('zipcode');
+//    zipcodeInput.addEventListener('change', function(){
+//        document.getElementById ("city").value = "";
+//        document.getElementById ("state").value = "";
+//    });
 
     //Get info based on zipcode
-    function getInfoFromZipcode(){
-      document.getElementById('zipcode-button').addEventListener('click', function () {
-        var currentZipcode = zipcode.value.trim();
-        if (window.XMLHttpRequest)
-        {  // IE7+, Firefox, Chrome, Opera, Safari
-          var xhr = new XMLHttpRequest();
-        }
-        else
-        {  // IE5, IE6
-          var xhr = new ActiveXObject ("Microsoft.XMLHTTP");
-        }
-         
-        // Call the response software component
-        xhr.open ("GET", "zipcode-data.php?zip=" + currentZipcode);
-        xhr.send ();
-        xhr.onreadystatechange = function ()        
-        { // 4 means finished, and 200 means okay.
-          
-          if (xhr.readyState == 4 && xhr.status == 200)
-          { // Data should look like "Fairfax, Virginia"              
-              var result = JSON.parse(xhr.responseText);
-              if(result.length > 0){
-                document.getElementById ("city").value = result[0].city;            
-                document.getElementById ("state").value = result[0].state;    
-                setSuccessFor(zipcode);         
-                setSuccessFor(city); 
-                setSuccessFor(state);
-                //Call Ajax to get tax price
-                var newXhr = new XMLHttpRequest();
-                newXhr.open ("GET", "tax-data.php?zip=" + currentZipcode);
-                newXhr.send ();
-                newXhr.onreadystatechange = function ()
-                { // 4 means finished, and 200 means okay.
-                  if (newXhr.readyState == 4 && newXhr.status == 200){
-                    var tax = JSON.parse(newXhr.responseText);                     
-                    calculateTotalPrice(tax[0].CombinedRate);
-                  }
-                }
-              }
-              else{                
-                document.getElementById ("city").value = "";
-                document.getElementById ("state").value = "";
-                setErrorFor(zipcode, "Zipcode is invalid.");
-                setErrorFor(city, 'City is required');
-                setErrorFor(state, 'State is required');
-              }  
-          }          
-        }
-        
-      });      
-    }       
+//    function getInfoFromZipcode(){
+//      document.getElementById('zipcode-button').addEventListener('click', function () {
+//        var currentZipcode = zipcode.value.trim();
+//        if (window.XMLHttpRequest)
+//        {  // IE7+, Firefox, Chrome, Opera, Safari
+//          var xhr = new XMLHttpRequest();
+//        }
+//        else
+//        {  // IE5, IE6
+//          var xhr = new ActiveXObject ("Microsoft.XMLHTTP");
+//        }
+//         
+//        // Call the response software component
+//        xhr.open ("GET", "zipcode-data.php?zip=" + currentZipcode);
+//        xhr.send ();
+//        xhr.onreadystatechange = function ()        
+//        { // 4 means finished, and 200 means okay.
+//          
+//          if (xhr.readyState === 4 && xhr.status === 200)
+//          { // Data should look like "Fairfax, Virginia"   
+//              console.log("test");
+//              console.log("xhr.responseText");
+//              var result = JSON.parse(xhr.responseText);
+//              if(result.length > 0){
+//                document.getElementById ("city").value = result[0].city;            
+//                document.getElementById ("state").value = result[0].state;    
+//                setSuccessFor(zipcode);         
+//                setSuccessFor(city); 
+//                setSuccessFor(state);
+//                //Call Ajax to get tax price
+//                var newXhr = new XMLHttpRequest();
+//                newXhr.open ("GET", "tax-data.php?zip=" + currentZipcode);
+//                newXhr.send ();
+//                newXhr.onreadystatechange = function ()
+//                { // 4 means finished, and 200 means okay.
+//                  if (newXhr.readyState == 4 && newXhr.status == 200){
+//                    var tax = JSON.parse(newXhr.responseText);                     
+//                    calculateTotalPrice(tax[0].CombinedRate);
+//                  }
+//                }
+//              }
+//              else{                
+//                document.getElementById ("city").value = "";
+//                document.getElementById ("state").value = "";
+//                setErrorFor(zipcode, "Zipcode is invalid.");
+//                setErrorFor(city, 'City is required');
+//                setErrorFor(state, 'State is required');
+//              }  
+//          }          
+//        }
+//        
+//      });      
+//    }       
     
     const form = document.getElementById('form');
     const firstName = document.getElementById('firstName');

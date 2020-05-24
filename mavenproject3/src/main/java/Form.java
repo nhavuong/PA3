@@ -88,7 +88,6 @@ public class Form extends HttpServlet {
                             "                            <p><strong>Quantity: </strong><span id=\"itemQuantity\"></span></p>\n" +
                             "                            <p><strong>Price: </strong><span id=\"itemPrice\"></span></p>\n" +
                             "                            <p><strong>Shipping: </strong><span id=\"shippingMethod\"></span></p>\n" +
-                            "                            <p><strong>Tax: </strong><span id=\"tax\"></span></p>\n" +
                             "                            <p><strong>Total: </strong><span id=\"total\"></span></p>\n" +
                             "                        </div>\n" +
                             "                    </div>\n" +
@@ -140,14 +139,14 @@ public class Form extends HttpServlet {
                             "                        </div>\n" +
                             "                        <div class=\"col-6 form-control\">\n" +
                             "                            <label for=\"city\">City</label>\n" +
-                            "                            <input id=\"city\" type=\"text\" placeholder=\"Type in zipcode to get info\" name=\"city\" disabled>\n" +
+                            "                            <input id=\"city\" type=\"text\" placeholder=\"Type in City\" name=\"city\">\n" +
                             "                            <i class=\"fas fa-check-circle\"></i>\n" +
                             "                            <i class=\"fas fa-exclamation-circle\"></i>\n" +
                             "                            <small>Error message</small>\n" +
                             "                        </div>\n" +
                             "                        <div class=\"col-6 form-control\">\n" +
                             "                            <label for=\"state\">State</label>\n" +
-                            "                            <input id=\"state\" type=\"text\" placeholder=\"Type in zipcode to get info\" name=\"state\" disabled>\n" +
+                            "                            <input id=\"state\" type=\"text\" placeholder=\"Type in State\" name=\"state\">\n" +
                             "                            <i class=\"fas fa-check-circle\"></i>\n" +
                             "                            <i class=\"fas fa-exclamation-circle\"></i>\n" +
                             "                            <small>Error message</small>\n" +
@@ -160,7 +159,6 @@ public class Form extends HttpServlet {
                             "                            <small >Error message</small>\n" +
                             "                            <div id='zipcode-error'></div>\n" +
                             "                        </div>                        \n" +
-                            "                        <div class=\"col-6 form-control\" id=\"zipcode-button\" onmouseover=\"getInfoFromZipcode()\">Get info from zip code</div>\n" +
                             "                        <div class=\"col-12 form-control\">\n" +
                             "                            <label>Shipping Method</label>\n" +
                             "                            <div class=\"option\">\n" +
@@ -192,7 +190,7 @@ public class Form extends HttpServlet {
                             "                            </div>\n" +
                             "                            <div class=\"col-4 form-control\">\n" +
                             "                                <label for=\"exp\">Expiration Date</label>\n" +
-                            "                                <input id=\"exp\" type=\"text\" placeholder=\"mm/yy\" pattern=\"(0[1-9]|1[0-2])/(2[0-9]|3[0-9])\" name=\"cardNo\">\n" +
+                            "                                <input id=\"exp\" type=\"text\" placeholder=\"mm/yy\" pattern=\"((0[6-9]|1[0-2])/20)|((0[1-9]|1[0-2])/(2[1-9]|3[0-9]))\" name=\"exp\">\n" +
                             "                                <i class=\"fas fa-check-circle\"></i>\n" +
                             "                                <i class=\"fas fa-exclamation-circle\"></i>\n" +
                             "                                <small>Error message</small>\n" +
