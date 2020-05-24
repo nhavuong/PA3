@@ -1,5 +1,4 @@
 
-
 function getParameterByName(target) {
     // Get request URL
     let url = window.location.href;
@@ -16,6 +15,7 @@ function getParameterByName(target) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+
 function  initItems(){
     
     let product = getParameterByName("product");
@@ -25,7 +25,7 @@ function  initItems(){
     xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200){
-            console.log(xhr.responseText);
+//            console.log(xhr.responseText);
             let products = JSON.parse(xhr.responseText);
             let lastProduct = null;
             let lastImghref = null;
@@ -63,9 +63,7 @@ function  initItems(){
                 title.appendChild(link2);     
             }
 
-            var product = localStorage.getItem('product');
-            var productData = JSON.parse(product);    
-    
+
             var left = document.getElementsByClassName('left'); 
 
             var image = document.createElement('img');
@@ -112,7 +110,7 @@ function  initItems(){
             button.type = "button";
             button.className = "button";
             button.id = "addCart";
-             // button.value = productData;
+            button.value = lastProduct;
             right[0].appendChild(button);
 
             var anchor = document.getElementsByClassName('button');
@@ -131,21 +129,67 @@ function  initItems(){
             link_more.appendChild(document.createTextNode("More products"));
             right[0].appendChild(link_more);
 
-            //Send object to next page
+            let totalProducts = 0;
+            for(let i = 0; i < localStorage.length; i++){
+                console.log(localStorage.key(i));
+                totalProducts += parseInt(localStorage.getItem(localStorage.key(i)));
+            }
+            document.querySelector('.cart-update span').textContent = totalProducts;
+            
             link.addEventListener('click', function() { 
-              productData.quantity = document.getElementById('number').value;
-              console.log(productData.quantity);
-              localStorage.setItem('product', JSON.stringify(productData));
-              document.querySelector('.cart-update span').textContent = productData.quantity;
-              }, false);
+                var xhr2 = new XMLHttpRequest();
+                xhr2.open("GET","api/AddCartServlet?product=" + lastProduct,true);
+                xhr2.send();
+                
+                let addingNum = document.getElementById('number').value;
+                addingNum = parseInt(addingNum);
+                let productNum = localStorage.getItem(lastProduct);
+                productNum = parseInt(productNum);
+                if(productNum){
+                    localStorage.setItem(lastProduct, productNum+addingNum);
+                }
+                else{
+                    localStorage.setItem(lastProduct, addingNum);
+                }
+                let totalProducts = 0;
+                for(let i = 0; i < localStorage.length; i++){
+                    console.log(localStorage.key(i));
+                    totalProducts += parseInt(localStorage.getItem(localStorage.key(i)));
+                }
+                document.querySelector('.cart-update span').textContent = totalProducts;
+            }, false);
 
        }
     };
 }
   document.onreadystatechange = () => {
     if (document.readyState === 'complete') {        
-        initItems();        
+        initItems();    
+        
     }
   };
 
+//function onLoadCartNum() {
+//    let product = localStorage.getItem('product');
+//    let productNum = JSON.parse(product); 
+//    
+//    console.log("local:" + productNum.quantity);
+//    if (product){
+//        localStorage.setItem('productNum', JSON.stringify(productNum));
+//        document.querySelector('.cart-update span').textContent = productNum.quantity;
+//        console.log("local: " + productNum.quantity);
+//    }
+//}
+//onLoadCartNum();
 
+//let addbtn = document.getElementById("addCart");
+//addbtn.onclick = function(){
+//    localstorage.setItem(addbtn.value, localstorage.getItem(addbtn.value) + 1);
+//}
+
+
+//jQuery.ajax({
+//    method: "get",
+//    url: "api/loadshoppingcart",
+//    success: result => handleshoppingcart(result)
+//})
