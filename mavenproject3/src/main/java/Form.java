@@ -88,6 +88,7 @@ public class Form extends HttpServlet {
                             "                            <p><strong>Quantity: </strong><span id=\"itemQuantity\"></span></p>\n" +
                             "                            <p><strong>Price: </strong><span id=\"itemPrice\"></span></p>\n" +
                             "                            <p><strong>Shipping: </strong><span id=\"shippingMethod\"></span></p>\n" +
+                            " <p><strong>Tax: </strong><span id=\"tax\"></span></p>" +
                             "                            <p><strong>Total: </strong><span id=\"total\"></span></p>\n" +
                             "                        </div>\n" +
                             "                    </div>\n" +
@@ -159,6 +160,7 @@ public class Form extends HttpServlet {
                             "                            <small >Error message</small>\n" +
                             "                            <div id='zipcode-error'></div>\n" +
                             "                        </div>                        \n" +
+                            " <div class=\"col-6 form-control\" id=\"zipcode-button\" onmouseover=\"getInfoFromZipcode()\">Get Tax from zip code</div>" +
                             "                        <div class=\"col-12 form-control\">\n" +
                             "                            <label>Shipping Method</label>\n" +
                             "                            <div class=\"option\">\n" +
